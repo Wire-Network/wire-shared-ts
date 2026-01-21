@@ -1,4 +1,4 @@
-import { assert, isDefined, isFunction, isNumber } from "../guards"
+import { assert, getValue, isDefined, isFunction, isNumber } from "../guards"
 import { Option } from "prelude-ts"
 import { pick } from "lodash"
 import { LevelKind, LevelThresholds } from "./Level.js"
@@ -43,7 +43,17 @@ export function toLogRecord(
   levelOrRecord: LevelKind | LogRecord,
   args: any[]
 ) {
-  return isString(levelOrRecord)
+  const errRecord = Option.ofNullable(
+    args.find((arg) => (isString(arg?.message) && !!arg.stack) || arg instanceof Error)
+  ).match({
+    Some: (err) => ({
+      errorMessage: getValue(() => err.message),
+      errorStack: getValue(() => err.stack)  
+    }),
+    None: () => ({})
+  })
+
+  const record = isString(levelOrRecord)
     ? ({
         ...pick(logger, ["category"]),
         timestamp: Date.now(),
@@ -52,6 +62,10 @@ export function toLogRecord(
         args: args.slice(1)
       } as LogRecord)
     : levelOrRecord
+  return {
+    ...record,
+    ...errRecord
+  }
 }
 
 export interface LoggerState {
