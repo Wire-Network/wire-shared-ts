@@ -1,0 +1,26 @@
+{
+  "name": "@wireio/shared-project",
+  "private": true,
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "build:dev": "tsc -b tsconfig.json -w",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.8.0",
+    "typescript": "^5.9.2"
+  },
+  "resolutions": {
+    "@types/lodash": "4.17.23",
+    "@types/node": "22.15.3",
+    "aws-sdk": "2.1693.0",
+    "lodash": "4.17.21",
+    "prettier": "3.8.0",
+    "typescript": "5.9.2"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=22",
+    "browser": "last 5 versions"
+  }
+}

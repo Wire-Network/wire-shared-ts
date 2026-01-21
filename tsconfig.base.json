@@ -1,0 +1,71 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "jsx": "react-jsx",
+    "allowJs": false,
+    "downlevelIteration": true,
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "composite": true,
+    "incremental": true,
+    "skipDefaultLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "disableSizeLimit": false,
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "paths": {
+      "@wireio/shared": [
+        "./packages/shared/src"
+      ],
+      "@wireio/shared/*": [
+        "./packages/shared/src/*"
+      ],
+      "@wireio/shared-web": [
+        "./packages/shared-web/src"
+      ],
+      "@wireio/shared-web/*": [
+        "./packages/shared-web/src/*"
+      ],
+      "@wireio/shared-node": [
+        "./packages/shared-node/src"
+      ],
+      "@wireio/shared-node/*": [
+        "./packages/shared-node/src/*"
+      ],
+    }
+  },
+  "include": [
+    "src",
+    "types"
+  ],
+  "exclude": [
+    "lib",
+    "dist",
+    "target",
+    "node_modules",
+    "**/*.js",
+    "**/lib/**",
+    "**/dist/**",
+    "**/target/**",
+    "**/node_modules/**"
+  ]
+}

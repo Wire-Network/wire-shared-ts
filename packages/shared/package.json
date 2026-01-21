@@ -1,0 +1,21 @@
+{
+  "name": "@wireio/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "types": "lib/index.d.ts",
+  "module": "lib/index.js",
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "build:dev": "tsc -b tsconfig.json -w"
+  },
+  "devDependencies": {
+    "@types/lodash": "4.17.23",
+    "@types/node": "^22.15.3",
+    "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1693.0",
+    "lodash": "^4.17.21"
+  }
+}

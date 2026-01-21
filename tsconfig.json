@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.base.json",
+  "files": [],
+  "exclude": [
+    "**/node_modules/**",
+    "**/lib/**",
+    "**/dist/**",
+    "node_modules",
+    "lib",
+    "target",
+    "dist"
+  ],
+  "references": [
+    {
+      "path": "./packages/shared/tsconfig.json"
+    },
+    {
+      "path": "./packages/shared-web/tsconfig.json"
+    },
+    {
+      "path": "./packages/shared-node/tsconfig.json"
+    }
+  ]
+}
