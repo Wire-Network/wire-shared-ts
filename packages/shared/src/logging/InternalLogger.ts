@@ -1,6 +1,28 @@
-const GLOBAL_CATEGORY = "GLOBAL"
+import { ConsoleAppender } from "./appenders/ConsoleAppender.js"
+import { Level, LevelKind } from "./Level.js"
+import type { Logger, LoggerOptions } from "./Logger.js"
+import { getLoggingManager } from "./LoggingManager.js"
 
-export function getInternalLogger(category: string = GLOBAL_CATEGORY) {
-  category = category.split("/").pop().replace(/\.[a-z]+$/,"") ?? GLOBAL_CATEGORY
-  return console
+const INTERNAL_CATEGORY = "INTERNAL"
+
+let internalLogger: Logger = null
+
+export function getInternalLogger(): Logger {
+  if (!internalLogger) {
+    internalLogger = getLoggingManager().getLogger(INTERNAL_CATEGORY, {
+      categoryInterpolator: (
+        inCategory: string,
+        options?: LoggerOptions
+      ) => INTERNAL_CATEGORY,
+      overrideAppenders: [new ConsoleAppender()]
+    })
+    internalLogger.setOverrideLevel(Level.fatal)
+  }
+  return internalLogger
 }
+
+export function setInternalLoggerThresholdLevel(level: LevelKind): void {
+  getInternalLogger().setOverrideLevel(level)
+}
+
+;(window as any).setInternalLoggerThresholdLevel = setInternalLoggerThresholdLevel

@@ -5,7 +5,7 @@ import type { Appender } from "./Appender.js"
 import { ConsoleAppender } from "./appenders/ConsoleAppender.js"
 import { Level, LevelKind, LevelThresholds } from "./Level.js"
 import { Logger, LoggerOptions } from "./Logger.js"
-import type { LogRecord } from "./LogRecord.js"
+import type { LogMetadata, LogRecord } from "./LogRecord.js"
 import { LogContext, LogContextContainer } from "./context/index.js"
 import { flow, get, nth } from "lodash/fp.js"
 
@@ -15,6 +15,7 @@ export type ThresholdOverride = [match: CategoryMatch, level: LevelKind]
 
 export interface LoggingManagerState<Record extends LogRecord> {
   rootLevel: LevelKind
+  globalMetadata?: LogMetadata
   appenders: Array<Appender<Record>>
   thresholdOverrides: Array<ThresholdOverride>
 }
@@ -45,12 +46,21 @@ export class LoggingManager<Record extends LogRecord = any> {
 
   private readonly state: LoggingManagerState<Record> = {
     appenders: [],
+    globalMetadata: {},
     rootLevel: Level.info,
     thresholdOverrides: kEnvThresholdOverrides
   }
 
   get rootLevel() {
     return this.state.rootLevel
+  }
+
+  get globalMetadata() {
+    return this.state.globalMetadata
+  }
+
+  set globalMetadata(newMetadata: LogMetadata) {
+    this.state.globalMetadata = newMetadata ?? {}
   }
 
   set rootLevel(newRootLevel: LevelKind) {

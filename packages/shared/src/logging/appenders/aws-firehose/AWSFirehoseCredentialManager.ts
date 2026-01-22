@@ -3,10 +3,9 @@ import { Deferred } from "../../../helpers/index.js"
 import { getInternalLogger } from "../../InternalLogger.js"
 import EventEmitter3 from "eventemitter3"
 
-const API_BASE = "https://log-ingest.shared.wire-dev.com"
 const CRED_BUFFER_PADDING_MS = 3 * 60 * 1000 // 3 minutes
 
-const log = getInternalLogger(import.meta.filename)
+const log = getInternalLogger()
 
 export interface AWSCredentials {
   accessKeyId: string
@@ -26,6 +25,12 @@ export class AWSFirehoseCredentialManager extends EventEmitter3<AWSFirehoseCrede
 
   private refreshTimer: ReturnType<typeof setTimeout> = null;
   private loadDeferred: Deferred<AWSCredentials> = null;
+
+  constructor(
+    public readonly credentialEndpointUrl: string,
+  ) {
+    super()
+  }
 
   forceUpdateCredentials(): void {
     if (this.loadDeferred && !this.loadDeferred.isSettled()) {
@@ -65,7 +70,7 @@ export class AWSFirehoseCredentialManager extends EventEmitter3<AWSFirehoseCrede
 
     const deferred = this.loadDeferred = new Deferred<AWSCredentials>()
     try {
-      const r = await fetch(API_BASE + "/creds", {
+      const r = await fetch(this.credentialEndpointUrl, {
         method: "GET",
         credentials: "include",
       })

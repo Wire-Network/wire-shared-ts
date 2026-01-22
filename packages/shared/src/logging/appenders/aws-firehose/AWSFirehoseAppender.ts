@@ -10,15 +10,14 @@ import { Level } from "../../Level.js"
 import AWSFirehoseCredentialManager from "./AWSFirehoseCredentialManager.js"
 import { getInternalLogger } from "../../InternalLogger.js"
 import { getValue, guard } from "../../../guards/index.js"
-import { pick } from "lodash"
+import { isEmpty, pick } from "lodash"
 import { Deferred } from "../../../helpers/index.js"
 import { LogRecord } from "../../LogRecord.js"
 import { Appender } from "../../Appender.js"
 
 const LogQueueMaxRecords = 10000
 
-const log = getInternalLogger(import.meta.filename)
-
+const log = getInternalLogger()
 
 export class AWSFirehoseAppender<Record extends LogRecord = LogRecord>
   implements Appender<Record> {
@@ -26,8 +25,12 @@ export class AWSFirehoseAppender<Record extends LogRecord = LogRecord>
   private flushDeferred: Deferred<void>
   private flushIntervalMs = 1000;
 
-  constructor(public readonly credentialManager: AWSFirehoseCredentialManager = new AWSFirehoseCredentialManager()) {
-    credentialManager.on("received", () => {
+  public readonly credentialManager: AWSFirehoseCredentialManager
+
+  constructor(
+    public readonly credentialEndpointUrl: string) {
+    this.credentialManager = new AWSFirehoseCredentialManager(credentialEndpointUrl)
+    this.credentialManager.on("received", () => {
       log.info("Credentials received, initializing firehose client")
       if (!this.pendingRecords.length || !!this.flushDeferred) {
         log.debug("Nothing to flush upon credential receipt OR flush already in progress")
@@ -49,11 +52,11 @@ export class AWSFirehoseAppender<Record extends LogRecord = LogRecord>
     }
 
     this.pendingRecords.push({
-      ...record,
-      app: "web",
       timestamp: Date.now(),
-      env: typeof process === "undefined" ? "WEB" : process.env.WIRE_ENV ?? "SHARED",
-      url: typeof window === "undefined" ? "local://node" : window.location.href,
+      ...record,
+      app: record.app?.length > 0 ? record.app : "UNKNOWN",
+      env: record.env?.length > 0 ? record.env : "UNKNOWN",
+      url: typeof window === "undefined" ? "local://" : window.location.href,
     })
 
     this.flush()
@@ -123,7 +126,8 @@ export class AWSFirehoseAppender<Record extends LogRecord = LogRecord>
           records = this.pendingRecords.splice(0, chunkSize),
           recordJsons = records.map(record => JSON.stringify(record))
 
-        // log.info("Record JSONs", recordJsons)
+        if (log.isDebugEnabled())
+          log.debug("Records", records)
 
         const
           textEncoder = new TextEncoder(),
