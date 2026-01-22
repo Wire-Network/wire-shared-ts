@@ -5,6 +5,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "lib",
+    "README.md"
+  ],
   "type": "module",
   "types": "lib/index.d.ts",
   "module": "lib/index.js",
