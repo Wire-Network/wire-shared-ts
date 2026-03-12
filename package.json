@@ -4,20 +4,25 @@
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "build:dev": "tsc -b tsconfig.json -w",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test": "jest"
   },
   "devDependencies": {
-    "prettier": "^3.8.0",
-    "typescript": "^5.9.2",
+    "@types/bluebird": "3.5.37",
     "@types/debug": "4.1.12",
+    "@types/jest": "^30.0.0",
     "@types/lodash": "4.17.23",
     "@types/node": "22.15.3",
-    "@types/bluebird": "3.5.37"
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "prettier": "^3.8.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.9.2"
   },
   "resolutions": {
     "@aws-sdk/client-firehose": "3.972.0",
     "@aws-sdk/client-sts": "3.972.0",
-    "bluebird":"3.7.2",
+    "bluebird": "3.7.2",
     "debug": "4.3.4",
     "lodash": "4.17.21",
     "prelude-ts": "1.0.6",

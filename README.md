@@ -1,6 +1,6 @@
 # Wire Shared TypeScript
 
-A monorepo containing shared TypeScript libraries for Wire applications, providing cross-platform utilities for logging, type guards, and async helpers.
+A monorepo containing shared TypeScript libraries for Wire applications, providing cross-platform utilities for logging, type guards, async helpers, and blockchain SDK primitives.
 
 ## Packages
 
@@ -9,6 +9,7 @@ A monorepo containing shared TypeScript libraries for Wire applications, providi
 | [@wireio/shared](./packages/shared) | Core shared utilities: logging framework, type guards, async helpers |
 | [@wireio/shared-web](./packages/shared-web) | Web-specific utilities (browser environment) |
 | [@wireio/shared-node](./packages/shared-node) | Node.js-specific utilities (server environment) |
+| [@wireio/sdk-core](./packages/sdk-core) | Core SDK for Wire powered blockchains: chain types, serialization, cryptography, signing |
 
 ## Examples
 
@@ -32,6 +33,9 @@ pnpm build
 
 # Build in watch mode (development)
 pnpm build:dev
+
+# Run tests
+pnpm test
 ```
 
 ## Project Structure
@@ -41,7 +45,8 @@ wire-shared-ts/
 ├── packages/
 │   ├── shared/           # Core shared utilities
 │   ├── shared-web/       # Web-specific utilities
-│   └── shared-node/      # Node.js-specific utilities
+│   ├── shared-node/      # Node.js-specific utilities
+│   └── sdk-core/         # Wire blockchain SDK core
 ├── examples/
 │   └── web-logging-example/  # Browser logging demo
 ├── etc/

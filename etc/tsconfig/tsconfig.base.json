@@ -51,6 +51,12 @@
       "@wireio/shared-node/*": [
         "./packages/shared-node/src/*"
       ],
+      "@wireio/sdk-core": [
+        "./packages/sdk-core/src"
+      ],
+      "@wireio/sdk-core/*": [
+        "./packages/sdk-core/src/*"
+      ],
     }
   },
   "include": [

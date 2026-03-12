@@ -14,7 +14,8 @@
   "module": "lib/index.js",
   "scripts": {
     "build": "tsc -b tsconfig.json",
-    "build:dev": "tsc -b tsconfig.json -w"
+    "build:dev": "tsc -b tsconfig.json -w",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/lodash": "4.17.23",
